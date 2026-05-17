@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Wellness Journal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,600&family=Lora:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --cream:       #F5EEE3;
+    --cream-dark:  #EDE4D4;
+    --cream-mid:   #FAF6EF;
+    --gold:        #B8956A;
+    --gold-light:  #D4B896;
+    --brown-dark:  #4A2E1A;
+    --brown-mid:   #5A3E2B;
+    --brown-light: #7A5C3E;
+    --brown-muted: #8C6A4A;
+    --sage:        #7A9E7E;
+    --terracotta:  #C17B5E;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--cream-dark); font-family: 'Lora', Georgia, serif; color: var(--brown-dark); -webkit-font-smoothing: antialiased; }
+
+  nav { background: var(--cream-dark); border-bottom: 1px solid var(--gold-light); padding: 18px 48px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--brown-dark); letter-spacing: 0.02em; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { font-family: 'Cormorant Garamond', serif; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--brown-light); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--brown-dark); }
+
+  .hero { background: var(--cream); position: relative; padding: 80px 48px 88px; text-align: center; overflow: hidden; }
+  .hero-border { position: absolute; inset: 16px; border: 1px solid var(--gold-light); pointer-events: none; }
+  .hero-botanical { margin: 0 auto 28px; display: block; opacity: 0; animation: fadeUp 0.8s ease forwards 0.1s; }
+  .hero-eyebrow { font-family: 'Cormorant Garamond', serif; font-size: 12px; letter-spacing: 0.35em; color: var(--brown-muted); text-transform: uppercase; margin-bottom: 16px; opacity: 0; animation: fadeUp 0.8s ease forwards 0.2s; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(42px, 6vw, 72px); font-weight: 700; color: var(--brown-dark); line-height: 1.05; margin-bottom: 10px; opacity: 0; animation: fadeUp 0.8s ease forwards 0.3s; }
+  .hero-subtitle { font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(18px, 2.5vw, 26px); font-weight: 400; color: var(--brown-light); margin-bottom: 28px; opacity: 0; animation: fadeUp 0.8s ease forwards 0.4s; }
+  .hero-rule { display: flex; align-items: center; gap: 12px; justify-content: center; margin-bottom: 28px; opacity: 0; animation: fadeUp 0.8s ease forwards 0.45s; }
+  .hero-rule span { display: block; width: 72px; height: 1px; background: var(--gold); }
+  .hero-rule-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); }
+  .hero-body { font-size: 15px; color: var(--brown-mid); line-height: 1.8; max-width: 560px; margin: 0 auto 40px; opacity: 0; animation: fadeUp 0.8s ease forwards 0.5s; }
+  .btn { display: inline-block; background: var(--gold); color: var(--cream); font-family: 'Cormorant Garamond', serif; font-size: 15px; letter-spacing: 0.15em; text-transform: uppercase; padding: 16px 48px; border: none; border-radius: 1px; cursor: pointer; text-decoration: none; transition: background 0.2s, transform 0.15s; opacity: 0; animation: fadeUp 0.8s ease forwards 0.6s; }
+  .btn:hover { background: var(--brown-mid); transform: translateY(-1px); }
+
+  .section { padding: 72px 48px 64px; background: var(--cream-mid); border-top: 1px solid #DDD0BC; }
+  .section-alt { background: var(--cream); }
+  .section-eyebrow { font-family: 'Cormorant Garamond', serif; font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--brown-muted); text-align: center; margin-bottom: 10px; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(26px, 3.5vw, 38px); font-weight: 700; color: var(--brown-dark); text-align: center; margin-bottom: 48px; line-height: 1.2; }
+  .section-rule { display: flex; align-items: center; gap: 10px; justify-content: center; margin-bottom: 48px; }
+  .section-rule span { display: block; width: 48px; height: 1px; background: var(--gold-light); }
+  .section-rule-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--gold-light); }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; max-width: 860px; margin: 0 auto; }
+  .card { background: var(--cream); border: 1px solid #DDD0BC; border-radius: 2px; padding: 28px 20px 24px; transition: transform 0.2s, box-shadow 0.2s; }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(90,62,43,0.08); }
+  .card-icon { margin-bottom: 14px; display: block; }
+  .card-title { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700; color: var(--brown-dark); margin-bottom: 8px; line-height: 1.3; }
+  .card-body { font-size: 12px; color: var(--brown-light); line-height: 1.65; }
+
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; max-width: 720px; margin: 0 auto; position: relative; }
+  .steps::before { content: ''; position: absolute; top: 36px; left: 16.66%; right: 16.66%; height: 1px; background: var(--gold-light); }
+  .step { text-align: center; padding: 0 24px; }
+  .step-num { font-family: 'Playfair Display', serif; font-size: 44px; font-weight: 700; color: var(--gold-light); line-height: 1; margin-bottom: 14px; display: block; }
+  .step-title { font-family: 'Lora', serif; font-size: 14px; font-weight: 500; color: var(--brown-dark); margin-bottom: 8px; }
+  .step-body { font-size: 12px; color: var(--brown-light); line-height: 1.65; }
+
+  .cta { background: var(--cream); border-top: 1px solid #DDD0BC; padding: 72px 48px 80px; text-align: center; }
+  .cta-tagline { font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(18px, 2.5vw, 24px); color: var(--brown-light); margin-bottom: 10px; }
+  .cta-sub { font-family: 'Cormorant Garamond', serif; font-size: 13px; letter-spacing: 0.2em; color: var(--brown-muted); text-transform: uppercase; margin-bottom: 36px; }
+  .cta-botanical { margin: 0 auto 36px; display: block; }
+
+  footer { background: var(--cream-dark); border-top: 1px solid var(--gold-light); padding: 24px 48px; text-align: center; font-family: 'Cormorant Garamond', serif; font-size: 12px; letter-spacing: 0.1em; color: var(--brown-muted); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 640px) {
+    nav { padding: 14px 20px; }
+    .hero { padding: 52px 24px 60px; }
+    .section { padding: 52px 24px 48px; }
+    .cta { padding: 52px 24px 60px; }
+    .steps { grid-template-columns: 1fr; gap: 32px; }
+    .steps::before { display: none; }
+    .nav-links { gap: 18px; }
+    footer { padding: 20px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">The Wellness Journal</div>
+  <ul class="nav-links">
+    <li><a href="#what-you-get">What's Inside</a></li>
+    <li><a href="#how-it-works">How It Works</a></li>
+    <li><a href="#get-it">Get Yours</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-border"></div>
+  <svg class="hero-botanical" width="120" height="70" viewBox="0 0 120 70" fill="none">
+    <line x1="60" y1="66" x2="60" y2="22" stroke="#7A9E7E" stroke-width="1.3"/>
+    <line x1="60" y1="44" x2="28" y2="12" stroke="#7A9E7E" stroke-width="1.2"/>
+    <line x1="60" y1="44" x2="92" y2="12" stroke="#7A9E7E" stroke-width="1.2"/>
+    <line x1="60" y1="32" x2="36" y2="8" stroke="#7A9E7E" stroke-width="1"/>
+    <line x1="60" y1="32" x2="84" y2="8" stroke="#7A9E7E" stroke-width="1"/>
+    <line x1="60" y1="22" x2="46" y2="4" stroke="#7A9E7E" stroke-width="1"/>
+    <line x1="60" y1="22" x2="74" y2="4" stroke="#7A9E7E" stroke-width="1"/>
+    <ellipse cx="60" cy="20" rx="6.5" ry="6" fill="#7A9E7E" opacity="0.8"/>
+    <ellipse cx="26" cy="10" rx="5.5" ry="5" fill="#C17B5E" opacity="0.75"/>
+    <ellipse cx="94" cy="10" rx="5.5" ry="5" fill="#C17B5E" opacity="0.75"/>
+    <ellipse cx="35" cy="6" rx="4.5" ry="4" fill="#7A9E7E" opacity="0.7"/>
+    <ellipse cx="85" cy="6" rx="4.5" ry="4" fill="#7A9E7E" opacity="0.7"/>
+    <ellipse cx="45" cy="2" rx="4" ry="3.5" fill="#C17B5E" opacity="0.65"/>
+    <ellipse cx="75" cy="2" rx="4" ry="3.5" fill="#C17B5E" opacity="0.65"/>
+  </svg>
+  <p class="hero-eyebrow">My Personal</p>
+  <h1 class="hero-title">The Wellness Journal</h1>
+  <p class="hero-subtitle">Small Daily Habits. Real, Lasting Change.</p>
+  <div class="hero-rule"><span></span><div class="hero-rule-dot"></div><span></span></div>
+  <p class="hero-body">A printable journal designed to help you check in with yourself every morning, track what matters, and reflect every evening — one intentional day at a time.</p>
+  <a class="btn" href="https://clearsignaltools.gumroad.com/l/lwemdc" target="_blank">Get Your Copy &mdash; $9</a>
+</section>
+
+<section class="section" id="what-you-get">
+  <p class="section-eyebrow">What You Get</p>
+  <h2 class="section-title">Five Pages. One Complete Day.</h2>
+  <div class="section-rule"><span></span><div class="section-rule-dot"></div><span></span></div>
+  <div class="cards">
+    <div class="card">
+      <svg class="card-icon" width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <circle cx="16" cy="16" r="11" stroke="#B8956A" stroke-width="1.1"/>
+        <line x1="16" y1="9" x2="16" y2="16" stroke="#B8956A" stroke-width="1.3"/>
+        <line x1="16" y1="16" x2="21" y2="20" stroke="#B8956A" stroke-width="1.3"/>
+        <circle cx="16" cy="16" r="1.5" fill="#B8956A"/>
+      </svg>
+      <div class="card-title">Morning Check-In</div>
+      <div class="card-body">Set your mood, energy, intention, and hydration goal before the day begins.</div>
+    </div>
+    <div class="card">
+      <svg class="card-icon" width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <path d="M16 5 L18.5 12 L26 12 L20 16.5 L22.5 24 L16 19.5 L9.5 24 L12 16.5 L6 12 L13.5 12 Z" stroke="#B8956A" stroke-width="1.1" fill="none" stroke-linejoin="round"/>
+      </svg>
+      <div class="card-title">Gratitude &amp; Joy</div>
+      <div class="card-body">Three daily gratitudes, a small joy, and space for your personal affirmation.</div>
+    </div>
+    <div class="card">
+      <svg class="card-icon" width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <rect x="7" y="8" width="18" height="18" rx="1.5" stroke="#B8956A" stroke-width="1.1"/>
+        <line x1="11" y1="14" x2="21" y2="14" stroke="#B8956A" stroke-width="0.9"/>
+        <line x1="11" y1="18" x2="21" y2="18" stroke="#B8956A" stroke-width="0.9"/>
+        <line x1="11" y1="22" x2="17" y2="22" stroke="#B8956A" stroke-width="0.9"/>
+        <line x1="13" y1="5" x2="13" y2="11" stroke="#B8956A" stroke-width="1"/>
+        <line x1="19" y1="5" x2="19" y2="11" stroke="#B8956A" stroke-width="1"/>
+      </svg>
+      <div class="card-title">Self-Care Checklist</div>
+      <div class="card-body">Body and mind habits, plus a gentle evening wind-down routine.</div>
+    </div>
+    <div class="card">
+      <svg class="card-icon" width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <rect x="5" y="10" width="22" height="14" rx="1.5" stroke="#B8956A" stroke-width="1.1"/>
+        <line x1="10" y1="10" x2="10" y2="24" stroke="#B8956A" stroke-width="0.7"/>
+        <line x1="16" y1="10" x2="16" y2="24" stroke="#B8956A" stroke-width="0.7"/>
+        <line x1="22" y1="10" x2="22" y2="24" stroke="#B8956A" stroke-width="0.7"/>
+        <line x1="5" y1="17" x2="27" y2="17" stroke="#B8956A" stroke-width="0.7"/>
+      </svg>
+      <div class="card-title">Mood &amp; Wellness Tracker</div>
+      <div class="card-body">Weekly overview across mood, sleep, energy, nutrition, and stress.</div>
+    </div>
+    <div class="card">
+      <svg class="card-icon" width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <path d="M8 9 Q16 6 24 9 L24 23 Q16 26 8 23 Z" stroke="#B8956A" stroke-width="1.1" fill="none"/>
+        <line x1="12" y1="14" x2="20" y2="14" stroke="#B8956A" stroke-width="0.8"/>
+        <line x1="12" y1="17" x2="20" y2="17" stroke="#B8956A" stroke-width="0.8"/>
+        <line x1="12" y1="20" x2="17" y2="20" stroke="#B8956A" stroke-width="0.8"/>
+      </svg>
+      <div class="card-title">Daily Reflection</div>
+      <div class="card-body">Evening prompts to close the day with clarity and purpose.</div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt" id="how-it-works">
+  <p class="section-eyebrow">How It Works</p>
+  <h2 class="section-title">Simple as 1 – 2 – 3</h2>
+  <div class="section-rule"><span></span><div class="section-rule-dot"></div><span></span></div>
+  <div class="steps">
+    <div class="step">
+      <span class="step-num">01</span>
+      <div class="step-title">Download</div>
+      <div class="step-body">Instant PDF delivery after purchase. No account needed.</div>
+    </div>
+    <div class="step">
+      <span class="step-num">02</span>
+      <div class="step-title">Print</div>
+      <div class="step-body">Works on any home printer. Standard US letter size.</div>
+    </div>
+    <div class="step">
+      <span class="step-num">03</span>
+      <div class="step-title">Write</div>
+      <div class="step-body">Five minutes in the morning. Five minutes at night.</div>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="get-it">
+  <svg class="cta-botanical" width="90" height="55" viewBox="0 0 90 55" fill="none">
+    <line x1="45" y1="4" x2="45" y2="48" stroke="#7A9E7E" stroke-width="1.2"/>
+    <line x1="45" y1="28" x2="18" y2="50" stroke="#7A9E7E" stroke-width="1.1"/>
+    <line x1="45" y1="28" x2="72" y2="50" stroke="#7A9E7E" stroke-width="1.1"/>
+    <line x1="45" y1="18" x2="24" y2="38" stroke="#7A9E7E" stroke-width="1"/>
+    <line x1="45" y1="18" x2="66" y2="38" stroke="#7A9E7E" stroke-width="1"/>
+    <ellipse cx="45" cy="6" rx="5" ry="5.5" fill="#7A9E7E" opacity="0.8"/>
+    <ellipse cx="16" cy="52" rx="4.5" ry="4" fill="#7A9E7E" opacity="0.7"/>
+    <ellipse cx="74" cy="52" rx="4.5" ry="4" fill="#7A9E7E" opacity="0.7"/>
+    <ellipse cx="22" cy="40" rx="3.5" ry="3" fill="#C17B5E" opacity="0.65"/>
+    <ellipse cx="68" cy="40" rx="3.5" ry="3" fill="#C17B5E" opacity="0.65"/>
+  </svg>
+  <p class="cta-tagline">"Nourishing the mind, body &amp; soul — one day at a time."</p>
+  <p class="cta-sub">Printable PDF &nbsp;·&nbsp; Instant Download &nbsp;·&nbsp; $9</p>
+  <a class="btn" href="https://clearsignaltools.gumroad.com/l/lwemdc" target="_blank">Download Now &mdash; $9</a>
+</section>
+
+<footer>
+  &copy; 2026 The Wellness Journal &nbsp;·&nbsp; All rights reserved
+</footer>
+
+</body>
+</html>
